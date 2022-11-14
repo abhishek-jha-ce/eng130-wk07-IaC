@@ -70,6 +70,5 @@ vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/hom
 - 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/110366380/201709972-1c3e9521-636f-40ba-8303-930bb5902ffe.png">
+  <img src="https://user-images.githubusercontent.com/110366380/201710647-1dbd9148-fcbe-4c81-9f51-3e0c1d89cff7.png">
 </p>
-
-
