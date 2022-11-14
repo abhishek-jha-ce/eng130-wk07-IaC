@@ -15,3 +15,7 @@ Configuration management refers to the process by which all environments hosting
 <p align="center">
   <img src="https://user-images.githubusercontent.com/110366380/201675173-4b8077fe-8679-4b2c-84d0-de012951f334.png">
 </p>
+
+## Orchestration
+
+DevOps orchestration is the automation of numerous processes that run concurrently in order to reduce production issues and time to market, while automation is the capacity to do a job or a series of procedures to finish an individual task repeatedly.
