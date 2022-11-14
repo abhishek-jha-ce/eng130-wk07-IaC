@@ -26,7 +26,7 @@ With IaC, configuration files are created that contain our infrastructure specif
 Configuration management refers to the process by which all environments hosting software are configured and maintained. It is the process of maintaining systems, such as computer hardware and software, in a desired state. Configuration Management (CM) is also a method of ensuring that systems perform in a manner consistent with expectations over time.
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
+  <img src="https://user-images.githubusercontent.com/110366380/201706750-7b8743d6-bd46-4b02-ace3-c251536a7936.png">
 </p>
 
 
@@ -46,3 +46,8 @@ Ansible is an open source IT automation tool that automates provisioning, config
   <img src="https://user-images.githubusercontent.com/110366380/201702748-e429a4a5-3ea5-4def-9b9e-8a86383661ad.png">
 </p>
 
+Ansible works by connecting to what you want automated and pushing programs that execute instructions that would have been done manually. These programs utilize Ansible modules that are written based on the specific expectations of the endpoint’s connectivity, interface, and commands. Ansible then executes these modules (over standard SSH by default), and removes them when finished (if applicable).
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
+</p>
