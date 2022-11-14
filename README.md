@@ -1,3 +1,16 @@
+# Blue Green Deployment
+
+Blue green deployment is an application release model that gradually transfers user traffic from a previous version of an app or microservice to a nearly identical new release—both of which are running in production. 
+
+The old version can be called the blue environment while the new version can be known as the green environment. Once production traffic is fully transferred from blue to green, blue can standby in case of rollback or pulled from production and updated to become the template upon which the next update is made.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/110366380/201677033-655ac493-8a5b-42f0-9cf8-16c42c74b8e7.png">
+</p>
+
+
+Once the new software is deployed to the system in which we plan to run it, we execut a smoke test to check the software is working properly. If the test passes, we would cut traffic over to the new deployment by reconfiguring the proxy [ Apache or similar].
+
 # Infrastructure as Code
 
 Infrastructure as Code (IaC) is the managing and provisioning of infrastructure through code instead of through manual processes.
