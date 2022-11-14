@@ -51,3 +51,25 @@ Ansible works by connecting to what you want automated and pushing programs that
 <p align="center">
   <img src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
 </p>
+
+## Default folder/file Structure
+
+- /etc/ansible
+- Inside this directory, `hosts` file contains the `ip address` of our agent nodes.
+
+## Copying `hosts` file
+
+- Copying `hosts` file from `controller` VM to `web` VM.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible web -m copy -a "src=hosts dest=/home/vagrant"
+
+vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/home/vagrant"
+```
+- We can see that the files have been successfully copied.
+- 
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/110366380/201709972-1c3e9521-636f-40ba-8303-930bb5902ffe.png">
+</p>
+
+
