@@ -33,3 +33,16 @@ Configuration management refers to the process by which all environments hosting
 ## Orchestration
 
 DevOps orchestration is the automation of numerous processes that run concurrently in order to reduce production issues and time to market, while automation is the capacity to do a job or a series of procedures to finish an individual task repeatedly.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/110366380/201700821-4dfa6620-b437-4d81-a103-2ecc20a3270a.png">
+</p>
+
+## Ansible
+
+Ansible is an open source IT automation tool that automates provisioning, configuration management, application deployment, orchestration, and many other manual IT processes. We can use Ansible automation to install software, automate daily tasks, provision infrastructure, improve security and compliance, patch systems, and share automation across the entire organization.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/110366380/201702748-e429a4a5-3ea5-4def-9b9e-8a86383661ad.png">
+</p>
+
