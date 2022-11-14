@@ -67,8 +67,11 @@ vagrant@controller:/etc/ansible$ sudo ansible web -m copy -a "src=hosts dest=/ho
 vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/home/vagrant"
 ```
 - We can see that the files have been successfully copied.
-- 
+
 <p align="center">
   <img src="https://user-images.githubusercontent.com/110366380/201709972-1c3e9521-636f-40ba-8303-930bb5902ffe.png">
   <img src="https://user-images.githubusercontent.com/110366380/201710647-1dbd9148-fcbe-4c81-9f51-3e0c1d89cff7.png">
 </p>
+
+## Setting up `provision.sh`
+
