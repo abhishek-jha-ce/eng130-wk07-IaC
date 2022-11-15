@@ -136,6 +136,103 @@ vagrant@controller:/etc/ansible$ sudo ansible all -m ping
 }
 ```
 
+# YAML
+
+- We create the YAML file - Playbooks, **Playbooks** are YAML files containing a list of ordered tasks that should be executed on a remote server to complete a task.
+
+- We create the YAML file inside `/etc/ansible`
+
+
+## YAML file for installing `nginx server`
+
+**Step 1**: We create a yaml file called `configure_nginx.yml` to install nginx server.
+
+```
+vagrant@controller:/etc/ansible$ sudo nano configure_nginx.yml
+
+```
+- The scripts inside the file will contains
+
+```
+# Yaml file start
+---
+# create a script to configure nginx in our web server
+
+# who is the host - name of the server
+- hosts: web
+
+# gather data
+  gather_facts: yes
+
+# We need admin access
+  become: true
+
+# add the actual instruction
+  tasks:
+  - name: Install/configure Nginx Web server in web-VM
+    apt: pkg=nginx state=present
+
+# we need to ensure a the end of the script the status of nginx is running
+```
+
+**Step 2**: Run the playbook.
+
+- First check for any syntax errors. Any errors will show up in the terminal.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible-playbook configure_nginx.yml --syntax-check
+
+playbook: configure_nginx.yml
+```
+
+- Run the playbook, using the command.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible-playbook configure_nginx.yml
+```
+
+- After successfully running the playbook, we get this message.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible-playbook configure_nginx.yml
+
+PLAY [web] ***********************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Install/configure Nginx Web server in web-VM] ******************************************************************************************
+changed: [192.168.33.10]
+
+PLAY RECAP ***********************************************************************************************************************************
+192.168.33.10              : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**Step 3**: Check if `nginx` is installed properly using the below commands. Also check the browser using the ip `192.168.33.10`. It will show `nginx` running.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible web -a "systemctl status nginx"
+
+192.168.33.10 | CHANGED | rc=0 >>
+● nginx.service - A high performance web server and a reverse proxy server
+   Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2022-11-15 16:19:33 UTC; 8min ago
+     Docs: man:nginx(8)
+ Main PID: 2877 (nginx)
+    Tasks: 3 (limit: 1104)
+   CGroup: /system.slice/nginx.service
+           ├─2877 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+           ├─2882 nginx: worker process
+           └─2883 nginx: worker process
+
+Nov 15 16:19:32 web systemd[1]: Starting A high performance web server and a reverse proxy server...
+Nov 15 16:19:33 web systemd[1]: nginx.service: Failed to parse PID from file /run/nginx.pid: Invalid argument
+Nov 15 16:19:33 web systemd[1]: Started A high performance web server and a reverse proxy server.
+```
+
+## YAML file for installing `node` and other dependencies
+
+**Step 1**: We create a yaml file called `node.yml` to install node and other related dependencies.
 
 code snippets
 ```
