@@ -251,7 +251,7 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
 # To execute the corresponding task as a sudo user root unless specified any other user with become_user
   become: true
 
-# Create a Script to configure/install/set up Required version of nodejs
+# Create a Script to configure/install/set up Required version of nodejs  
 
   tasks:
   - name: Allow all access to tcp port 80
@@ -276,25 +276,29 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
       name: nodejs
       state: present
 
-#  - name: Install npm
-#    apt: pkg=npm state=present
-
   - name: Install pm2
     npm:
       name: pm2
       global: yes
-      production: yes
+      #production: yes
       state: present
 
-#  - name: Copy "app" folder from localhost to remote app vm
-#    copy:
-#      src: ~/Sparta/resources/app
-#      dest: /home/vagrant/app
-#      remote_src: yes
+  - name: Copy app foler into web VM
+    synchronize:
+      src: /home/vagrant
+      dest: /home/vagrant
 
-# Copy Dependencies from localhost to controller/web using playbook
+  - name: Copy environment folder into web VM
+    synchronize:
+      src: /home/vagrant
+      dest: /home/vagrant
 
-
+  -name: Run npm
+    shell:
+      cd app
+      npm install
+      pm2 kill
+      pm2 start app.js
 ```
 
 
