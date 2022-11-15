@@ -186,3 +186,24 @@ echo 192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_p
 echo [db] >> hosts
 echo 192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant >> hosts
 ```
+```
+# Yaml file start
+---
+# create a script to configure nginx in our web server
+
+# who is the host - name of the server
+- hosts: web
+
+# gather data
+  gather_facts: yes
+
+# We need admin access
+  become: true
+
+# add the actual instruction
+  tasks:
+  - name: Install/configure Nginx Web server in web-VM
+    apt: pkg=nginx state=present
+
+# we need to ensure a the end of the script the status of nginx is running
+```
