@@ -18,8 +18,12 @@
     
     controller.vm.network :private_network, ip: "192.168.33.12"
     
+    controller.vm.synced_folder "./app", "/home/vagrant/app", create: true
+    controller.vm.synced_folder "./environment", "/home/vagrant/environment", create: true
+    controller.vm.synced_folder "./yaml", "/home/vagrant/etc/ansible", create: true
+
     controller.vm.provision "shell", path: "provision.sh"
-    
+ 
     # config.hostsupdater.aliases = ["development.controller"] 
     
    end 
