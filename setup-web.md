@@ -149,7 +149,6 @@ vagrant@controller:/etc/ansible$ sudo ansible all -m ping
 
 ```
 vagrant@controller:/etc/ansible$ sudo nano configure_nginx.yml
-
 ```
 - The scripts inside the file will contains
 
@@ -234,9 +233,12 @@ Nov 15 16:19:33 web systemd[1]: Started A high performance web server and a reve
 
 **Step 1**: We create a yaml file called `node.yml` to install node and other related dependencies.
 
-code snippets
 ```
-vagrant@controller:/etc/ansible$ cat node.yml
+vagrant@controller:/etc/ansible$ sudo nano node.yml
+```
+- The scripts inside the file will contains
+
+```
 # Start of file
 ---
 
