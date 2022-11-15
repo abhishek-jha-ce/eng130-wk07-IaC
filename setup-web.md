@@ -300,20 +300,76 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
       pm2 kill
       pm2 start app.js
 ```
+**Step 2**: Run the playbook.
 
-
-# Mongo DB
+- First check for any syntax errors. Any errors will show up in the terminal.
 
 ```
----
-#
-- hosts: db
+vagrant@controller:/etc/ansible$ sudo ansible-playbook node.yml --syntax-check
 
-  gather_facts: yes
-
-  become: true
-
-  tasks:
-  - name: install mongodb
-    apt: pkg=mongodb state=present
+playbook: node.yml
 ```
+
+- Run the playbook, using the command.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible-playbook node.yml
+```
+
+- After successfully running the playbook, we get this message.
+
+```
+PLAY [web] **********************************************************************************************************************************************************************
+
+TASK [Gathering Facts] **********************************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Allow all access to tcp port 80] ******************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Add nodejs apt key] *******************************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Add nodejs 12.x ppa for apt repo] *****************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Installing nodejs] ********************************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Install pm2] **************************************************************************************************************************************************************
+ok: [192.168.33.10]
+
+TASK [Copy app foler into web VM] ***********************************************************************************************************************************************
+changed: [192.168.33.10]
+
+TASK [Copy environment folder into web VM] **************************************************************************************************************************************
+changed: [192.168.33.10]
+
+TASK [Run npm] ******************************************************************************************************************************************************************
+changed: [192.168.33.10]
+
+PLAY RECAP **********************************************************************************************************************************************************************
+192.168.33.10              : ok=9    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+**Step 3**: Check if `node` is installed properly using the below commands from the controller.
+
+```
+# Checking the node version
+vagrant@controller:/etc/ansible$ sudo ansible web -a "node --version"
+192.168.33.10 | CHANGED | rc=0 >>
+v12.22.12
+
+# Checking the npm version
+vagrant@controller:/etc/ansible$ sudo ansible web -a "npm --version"
+192.168.33.10 | CHANGED | rc=0 >>
+6.14.16
+```
+
+- Check the browser using the ip `192.168.33.10:3000`. It will show the app running. Note: We haven't set the reverse proxy yet.
+
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/110366380/201988386-3d423fc9-ffca-4564-86e1-7c0dac8cd833.png">
+</p>
+
+ 
