@@ -26,7 +26,7 @@ vagrant@controller:/etc/ansible$ sudo nano mongo.yml
     file:
       path: /etc/mongodb.conf
       state: absent
-  - name: Touch a file, using symbolic modes to set the permissions (equivalent to 0644)
+  - name: Create the file with read permission and user have write permission
     file:
       path: /etc/mongodb.conf
       state: touch
