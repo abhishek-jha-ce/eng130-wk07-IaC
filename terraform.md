@@ -29,6 +29,7 @@ Terraform is an open-source software tool that allows us to safely and predictab
 - Using modules we have a standard interface for creating resources by providing inputs and returning outputs.
 - It help us to organize configuration, encapsulate configuration, re-use configuration, provide consistency and ensure best practices.
 
+## Terraform State
 ## Use-case
 
 - Public Cloud Provisioning
