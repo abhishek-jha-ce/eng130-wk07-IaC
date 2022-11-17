@@ -122,3 +122,8 @@ resource "aws_instance" "app_instance" {
   }
 }
 ```
+
+## Architecture
+
+![Untitled Diagram drawio(2)](https://user-images.githubusercontent.com/110366380/202481178-4f50f1b1-8f71-455c-9d08-f1d04268e275.png)
+
