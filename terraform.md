@@ -31,4 +31,11 @@ Terraform is an open-source software tool that allows us to safely and predictab
 
 ## Use-case
 
+- Public Cloud Provisioning
+- MultiCloud Deployments
+- Bespoke Infrastructure As Code
+
 ## Who is using it
+Companies like Uber, Udemy, Slack, Twitch.
+
+## Who owns Terraform
