@@ -127,3 +127,123 @@ resource "aws_instance" "app_instance" {
 
 ![Untitled Diagram drawio(2)](https://user-images.githubusercontent.com/110366380/202481178-4f50f1b1-8f71-455c-9d08-f1d04268e275.png)
 
+```
+# Write a script to launch resources on the cloud
+# syntax {
+#         key = value  }
+# Create EC2 instance on AWS
+
+# Download dependencies from AWS
+
+
+provider "aws" {
+# Which part of AWS we would like to launch resources in
+  region = var.region
+}
+
+# Creating the VPC
+resource "aws_vpc" "tf-vpc" {
+  cidr_block = var.cidr_block
+  instance_tenancy = "default"
+  tags = {
+    Name = var.vpc_name
+  }
+}
+
+# Create Internet Gateway
+resource "aws_internet_gateway" "tf-igw" {
+    vpc_id = "${aws_vpc.tf-vpc.id}"
+    tags = {
+        Name = var.igw_name
+    }
+}
+
+# Create a public subnet
+resource "aws_subnet" "tf-public-subnet"{
+    vpc_id = "${aws_vpc.tf-vpc.id}"
+    cidr_block = var.public_subnet_cidr_block
+    map_public_ip_on_launch = "true" // To make it a public subnet
+    availability_zone = var.availability_zone
+    tags = {
+        Name = var.public_subnet_name
+    }
+}
+
+# Create custom route table
+resource "aws_route_table" "tf-public-rt" {
+    vpc_id = "${aws_vpc.tf-vpc.id}"
+    
+    route {
+        cidr_block = var.allow_all_cidr_block         
+        gateway_id = "${aws_internet_gateway.tf-igw.id}" 
+    }
+    
+    tags = {
+        Name = var.public_route_table_name
+    }
+}
+
+# Associate Public Route Table with Public Subnet
+resource "aws_route_table_association" "tf-rt-public-subnet"{
+    subnet_id = "${aws_subnet.tf-public-subnet.id}"
+    route_table_id = "${aws_route_table.tf-public-rt.id}"
+}
+
+# Create Securit Group for the public subnet
+resource "aws_security_group" "tf-public-sg" {
+    name = var.public_security_group_name
+    vpc_id = "${aws_vpc.tf-vpc.id}"
+    
+    # Outgoing Traffic
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = -1
+        cidr_blocks = [var.allow_all_cidr_block]
+    }    
+    
+    # Incoming Traffic
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"        
+        cidr_blocks = [var.my_ip]
+    }
+
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = [var.allow_all_cidr_block]
+    }
+
+    ingress {
+      from_port = 3000
+      to_port = 3000
+      protocol = "tcp"
+      cidr_blocks = [var.allow_all_cidr_block]
+    }    
+    
+    tags = {
+        Name = var.public_security_group_name
+    }
+}
+
+# launch an instance
+resource "aws_instance" "app_instance" {
+  ami =  var.webapp_ami_id
+  instance_type = var.ec2_type
+
+  # VPC
+  subnet_id = "${aws_subnet.tf-public-subnet.id}"
+
+  # Security Group
+  vpc_security_group_ids = ["${aws_security_group.tf-public-sg.id}"]
+
+  associate_public_ip_address = true
+  
+  tags = {
+      Name = var.name     
+  }  
+}
+```
