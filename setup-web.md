@@ -372,4 +372,31 @@ vagrant@controller:/etc/ansible$ sudo ansible web -a "npm --version"
    <img src="https://user-images.githubusercontent.com/110366380/201988386-3d423fc9-ffca-4564-86e1-7c0dac8cd833.png">
 </p>
 
- 
+
+**Step 4**: Seed the Database.
+
+- Add the environment variables to the `node.yml` file.
+```
+
+- name: Install latest npm & mongoose
+  shell: |
+      npm install -g npm@latest
+      npm install mongoose -y
+      
+# This one not working      
+- name: Add Env varible
+    shell: |
+      echo export DB_HOST=mongodb://192.168.33.11:27017/posts >> .bashrc
+      sudo source .bashrc
+```
+```
+environment:
+      DB_HOST: mongodb://192.168.33.11:27017/posts?authSource=admin
+    become_user: root
+    
+# This one not working
+ - name: Seed Database
+    shell: |
+      cd app
+      node seeds/seed.js
+```
