@@ -32,7 +32,16 @@ Terraform is an open-source software tool that allows us to safely and predictab
 ## Terraform State
 ## Use-case
 
+- Public Cloud Provisioning
+- MultiCloud Deployments
+- Bespoke Infrastructure As Code
 
+## Who is using it
+Companies like Uber, Udemy, Slack, Twitch.
+
+## Who owns Terraform
+
+- Terraform Commands
 
 ```
 Usage: terraform [global options] <subcommand> [args]
@@ -75,11 +84,41 @@ Global options (use these before the subcommand, if any):
   -version      An alias for the "version" subcommand.
 
 ```
-- Public Cloud Provisioning
-- MultiCloud Deployments
-- Bespoke Infrastructure As Code
 
-## Who is using it
-Companies like Uber, Udemy, Slack, Twitch.
 
-## Who owns Terraform
+- `main.tf` file
+
+```
+# Write a script to launch resources on the cloud
+# syntax {
+#         key = value  }
+# Create EC2 instance on AWS
+
+# Download dependencies from AWS
+
+provider "aws" {
+# Which part of AWS we would like to launch resources in
+  region = "eu-west-1"
+}
+# What type of server with what sort of functionality
+
+# add resource
+
+# ami
+
+# instance type
+
+# do we need public ip or not
+
+# name the server
+
+# launch an instance
+resource "aws_instance" "app_instance" {
+  ami = "ami-0b47105e3d7fc023e"
+  instance_type = "t2.micro"
+  associate_public_ip_address = true
+  tags = {
+      Name = "eng130-abhishek-terraform-app"     
+  }
+}
+```
