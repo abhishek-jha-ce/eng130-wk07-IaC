@@ -6,10 +6,8 @@
 
 ```
    controller.vm.synced_folder "./app", "/home/vagrant/app", create: true
-   controller.vm.synced_folder "./environment", "/home/vagrant/environment", create: true
-   controller.vm.synced_folder "./yaml", "/home/vagrant/etc/ansible", create: true
+   controller.vm.synced_folder "./environment", "/home/vagrant/environment", create: true   
 ```
-- We have also copied the `yaml` files, which are inside `yaml` folder. See details below in `YAML` section. These files are called **Playbook**.
 
 **Step 2**: Run Vagrant to setup the three virtual machines.
 
@@ -271,15 +269,8 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
   become: true
 
 # Create a Script to configure/install/set up Required version of nodejs  
-
   tasks:
-  - name: Allow all access to tcp port 80
-    ufw:
-      rule: allow
-      port: '80'
-      proto: tcp
-
-  - name: Add nodejs apt key
+  - name: "Add nodejs apt key"
     apt_key:
       url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
       state: present
@@ -289,27 +280,22 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
       repo: deb https://deb.nodesource.com/node_12.x bionic main
       update_cache: yes
 
-  - name: Installing nodejs
-    apt:
-      update_cache: yes
-      name: nodejs
-      state: present
+  - name: Install/configure nodejs
+    apt: pkg=nodejs state=present update_cache=yes
 
   - name: Install pm2
     npm:
       name: pm2
       global: yes
-      #production: yes
-      state: present
 
-  - name: Copy app foler into web VM
+  - name: Copy web app into web virtual machine
     synchronize:
-      src: /home/vagrant
+      src: /home/vagrant/app
       dest: /home/vagrant
 
-  - name: Copy environment folder into web VM
+  - name: Copy web environment into web virtual machine
     synchronize:
-      src: /home/vagrant
+      src: /home/vagrant/environment
       dest: /home/vagrant
 
   - name: Run npm
@@ -391,31 +377,8 @@ vagrant@controller:/etc/ansible$ sudo ansible web -a "npm --version"
    <img src="https://user-images.githubusercontent.com/110366380/201988386-3d423fc9-ffca-4564-86e1-7c0dac8cd833.png">
 </p>
 
+- We can also check to see if the fibonacci series is working, by providing the url `http://192.168.33.10:3000/fibonacci/5`
 
-**Step 4**: Seed the Database.
-
-- Add the environment variables to the `node.yml` file.
-```
-
-- name: Install latest npm & mongoose
-  shell: |
-      npm install -g npm@latest
-      npm install mongoose -y
-      
-# This one not working      
-- name: Add Env varible
-    shell: |
-      echo export DB_HOST=mongodb://192.168.33.11:27017/posts >> .bashrc
-      sudo source .bashrc
-```
-```
-environment:
-      DB_HOST: mongodb://192.168.33.11:27017/posts?authSource=admin
-    become_user: root
-    
-# This one not working
- - name: Seed Database
-    shell: |
-      cd app
-      node seeds/seed.js
-```
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/110366380/202932073-0d387b5e-7b3d-48a1-bab1-f929c2a659db.png">
+</p>
