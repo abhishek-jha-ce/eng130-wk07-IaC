@@ -66,8 +66,18 @@ Once the new software is deployed to the system in which we plan to run it, we e
 
 ## IaC with **Ansible** and **Terraform**
 
-| Topics        |
-| ------------- |
-| [Introductin to Ansible](ansible/README.md) |
-| [Creating VM & Installing Ansible](ansible/create-vm-install-ansible.md)      |
-| Terraform |
+### [Introduction to Ansible](ansible/README.md)
+- Introduction to Ansible
+  
+### [Creating VM & Installing Ansible](ansible/create-vm-install-ansible.md)
+- Architecture Diagram
+- Getting the VM up an running with Vagrant file
+- Setting up the Ansible Controller
+- Default folder/file Structure
+- SSH into Nodes from Controller
+- Adding Hosts in the Controller
+- Pinging all the available servers
+- Ad hoc Commands
+- Copying Files from controller to nodes/servers
+***
+
