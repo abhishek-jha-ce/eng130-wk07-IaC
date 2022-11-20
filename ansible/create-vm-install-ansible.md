@@ -164,7 +164,7 @@ Inside the file, provide the ip address, connection type, username and password
 ## Ping from the Controller
 
 ```
-ansible all -m ping
+vagrant@controller:/etc/ansible$ sudo ansible all -m ping
 ```
 
 Output if no errors:
@@ -207,6 +207,9 @@ ansible all -a "uname -a"               # Prints the name, version and other det
 vagrant@controller:/etc/ansible$ sudo ansible web -m copy -a "src=hosts dest=/home/vagrant"
 
 vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/home/vagrant"
+
+# Copy with Permissions
+ansible all -m copy -a "src=/etc/hosts dest=/tmp/hosts owner=vagrant group=vagrant mode=0644"
 ```
 - We can see that the files have been successfully copied.
 
@@ -216,7 +219,9 @@ vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/hom
 </p>
 
 
-## Setting up `provision.sh`
+## Setting up `provision.sh` & `provision-update.sh`
+
+- We can setup the above tasks inside a file `provision.sh` and link it to `Vagrantfile` so that all the tasks in the file `provision.sh` will be provisioned while the virtual machine is created and we don't have to manually do it later. A sample `provision.sh` file is shown below:
 
 ```
 #!/bin/bash
@@ -240,25 +245,4 @@ echo [web] >> hosts
 echo 192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant >> hosts
 echo [db] >> hosts
 echo 192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant >> hosts
-```
-```
-# Yaml file start
----
-# create a script to configure nginx in our web server
-
-# who is the host - name of the server
-- hosts: web
-
-# gather data
-  gather_facts: yes
-
-# We need admin access
-  become: true
-
-# add the actual instruction
-  tasks:
-  - name: Install/configure Nginx Web server in web-VM
-    apt: pkg=nginx state=present
-
-# we need to ensure a the end of the script the status of nginx is running
 ```
