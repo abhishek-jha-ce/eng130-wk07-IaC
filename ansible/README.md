@@ -18,6 +18,14 @@ Ansible works by connecting to what you want automated and pushing programs that
   <img height=500 width=750 src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
 </p>
 
+## Why Ansible
+- Ansible is agentless because we only need to install ansible on the controller.
+  - We connect to the other servers using SSH - this method also makes the connection simple.
+- It uses YAML. It is very powerful, but at the same time, very easy to learn.
+  - No need to learn a new programming language.
+
+## Key terms in Ansible
+
 ### Inventory
 - Inventory is a list of hosts that ansible manages. It is a simple text file named `hosts` that contains a list of hosts. It can also contain groups of hosts and variables that apply to those hosts.
 
