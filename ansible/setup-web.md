@@ -1,4 +1,4 @@
-# Setting up the controller to run the app VM
+## Setting up the controller to run the app VM
 
 **Step 1**: We need to copy the files from `app` and `environment` folder to the `controller VM`. This files need to be copied so we can copy it from controller to whereever we need it.
 
@@ -136,14 +136,24 @@ vagrant@controller:/etc/ansible$ sudo ansible all -m ping
 }
 ```
 
-# YAML
+## YAML
 
-- We create the YAML file - Playbooks, **Playbooks** are YAML files containing a list of ordered tasks that should be executed on a remote server to complete a task.
+- YAML is a human-readable data-serialization language. 
+- It is commonly used for configuration files and in applications where data is being stored or transmitted. 
 
-- We create the YAML file inside `/etc/ansible`
+### YAML Syntax
+- YAML is case sensitive.
+- YAML uses indentation to represent scope.
+- YAML uses three dashes (---) to indicate the start of a document, and three dots (...) to indicate the end of a document.
+- YAML supports two data structures: hashes and arrays.
 
+### YAML for Playbook
 
-## YAML file for installing `nginx server`
+- We use YAML file to create Playbooks, **Playbooks** are YAML files containing a list of ordered tasks that should be executed on a remote server to complete a task.
+
+- We create the YAML file inside `/etc/ansible`.
+
+## YAML file (Playbook) for installing `nginx server`
 
 **Step 1**: We create a yaml file called `configure_nginx.yml` to install nginx server.
 
@@ -229,7 +239,7 @@ Nov 15 16:19:33 web systemd[1]: nginx.service: Failed to parse PID from file /ru
 Nov 15 16:19:33 web systemd[1]: Started A high performance web server and a reverse proxy server.
 ```
 
-## YAML file for installing `node` and other dependencies
+## YAML file (Playbook) for installing `node` and other dependencies
 
 **Step 1**: We create a yaml file called `node.yml` to install node and other related dependencies.
 
