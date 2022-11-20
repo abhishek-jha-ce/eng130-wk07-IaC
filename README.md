@@ -68,7 +68,7 @@ Once the new software is deployed to the system in which we plan to run it, we e
 
 | Topics        | Links         |
 | ------------- |:-------------:|
-| Ansible      | right-aligned |
+| [Ansible](ansible/installation.md) |
 | Terraform      | centered      |
 | AWS | are neat      |
 
