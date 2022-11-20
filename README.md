@@ -83,7 +83,10 @@ Once the new software is deployed to the system in which we plan to run it, we e
 
 ***
 
-### [Configure Web]()
-
+### [Configure Web Server via Controller](ansible/setup-web.md)
+- Setup - Pre-requisites.
+- YAML - For Playbooks.
+- YAML file (Playbook) for installing `nginx` server.
+- YAML file (Playbook) for installing `node` server and other dependencies.
 ***
 ***
