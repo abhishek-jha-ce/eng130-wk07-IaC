@@ -1,6 +1,6 @@
 
 
-## Ansible
+# Ansible
 
 Ansible is an open source IT automation tool that automates provisioning, configuration management, application deployment, orchestration, and many other manual IT processes. We can use Ansible automation to install software, automate daily tasks, provision infrastructure, improve security and compliance, patch systems, and share automation across the entire organization.
 
@@ -10,155 +10,86 @@ Ansible is an open source IT automation tool that automates provisioning, config
 
 Ansible works by connecting to what you want automated and pushing programs that execute instructions that would have been done manually. These programs utilize Ansible modules that are written based on the specific expectations of the endpoint’s connectivity, interface, and commands. Ansible then executes these modules (over standard SSH by default), and removes them when finished (if applicable).
 
+## Configuration Management with Ansible
+
+- **Ansible** can be used for both *Orchestration* and *Configuration Management*, but we use it mostly for *Configuration Management* as it is possible but not easy to do *Orchestration* compared to using other *Orchestration* tools like **Terraform**.
+
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
+  <img height=500 width=750 src="https://user-images.githubusercontent.com/110366380/201694444-ddb5beff-753e-4c8d-ae3e-d718b90ac772.png">
 </p>
 
-## Default folder/file Structure
+### Inventory
+- Inventory is a list of hosts that ansible manages. It is a simple text file named `hosts` that contains a list of hosts. It can also contain groups of hosts and variables that apply to those hosts.
 
-- /etc/ansible
-- Inside this directory, `hosts` file contains the `ip address` of our agent nodes.
+- Ansible reads information about the machine we manage from the `hosts` file also called inventory .
 
-## Getting the machines up an running from Vagrant file
-
+Example of an inventory file:
 ```
-Vagrant SSH
-
-We should have 3 Virtual Machines: Controller, Web and DB
-```
-
-## Installing Ansible in Controller
-
-```
-sudo apt-get install software-properties-common #
-sudo apt-add-repository ppa:ansible/ansible #
-
-sudo apt-get update # Update
-sudo apt-get install ansible # Install Ansible
-
-ansible --version # Check Version, if ansible is installed properly
-
-sudo apt install tree  # To view directory structured in an organised view
-```
-
-### Connect to the Web from Controller
-
-sudo ssh vagrant@192.168.33.10 # IP Address of Web
-password: vagrant
-
-### Connect to the DB from Controller
-
-sudo ssh vagrant@192.168.33.11 # IP Address of DB
-password: vagrant
-
-### Adding Hosts to Controller
-
-```
-sudo nano /etc/hosts
-
-Inside the file, provide the ip address, connection type, username and password
-
+---
 [web]
 192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
 
 [db]
 192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant
+```
+### Roles
 
+- Roles let us automatically load related vars, files, tasks, handlers, and other Ansible artifacts based on a known file structure. After we group our content in roles, we can easily reuse them and share them with other users.
+
+- Roles may also include `modules` and other plugin types in a directory called `library`.
+
+### Modules
+
+- Modules are basically the small programs in ansible that does the actual work. 
+- They are script-like programs written to specify the desired state of the system.
+- They are part of larger program called Playbook
+- Ansible moduels can also be defined as a standalone script that can be used inside an `Ansible Playbook`.
+
+Example of a Module:
+```
+- name: Install pm2
+    npm:
+      name: pm2
+      global: yes
+      #production: yes
+      state: present
 ```
 
-### Ping from the Controller
+### Playbook
 
+- Ansible Playbooks offer a repeatable, re-usable, simple configuration management and multi-machine deployment system.
+- It is well suited to deploy complex applications. 
+- If we need to execute a task with Ansible more than once, we can write a playbook and put it under source control. 
+- We can then use the playbook to push out new configuration or confirm the configuration of remote systems.
+- They are written in `YAML`.
+
+Example of Playbook:
 ```
-ansible all -m ping
-```
-
-Output if no errors:
-```
-192.168.33.10 | SUCCESS => {
-    "ansible_facts": {
-        "discovered_interpreter_python": "/usr/bin/python"
-    },
-    "changed": false,
-    "ping": "pong"
-}
-
-192.168.33.11 | SUCCESS => {
-    "ansible_facts": {
-        "discovered_interpreter_python": "/usr/bin/python"
-    },
-    "changed": false,
-    "ping": "pong"
-}
-```
-
-### Copying `hosts` file
-
-- Copying `hosts` file from `controller` VM to `web` VM.
-
-```
-vagrant@controller:/etc/ansible$ sudo ansible web -m copy -a "src=hosts dest=/home/vagrant"
-
-vagrant@controller:/etc/ansible$ sudo ansible db -m copy -a "src=hosts dest=/home/vagrant"
-```
-- We can see that the files have been successfully copied.
-
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/110366380/201709972-1c3e9521-636f-40ba-8303-930bb5902ffe.png">
-  <img src="https://user-images.githubusercontent.com/110366380/201710647-1dbd9148-fcbe-4c81-9f51-3e0c1d89cff7.png">
-</p>
-
-### Other Commands
-
-```
-sudo ansible web -a "date" # to show the date of the machine
-sudo ansible all -m ping # to ping all the machines
-sudo ansible all -a "sudo apt update" # to update all 
-ansible all -a "uname -a" # Prints the name, version and other details about the machine and the OS running.
-```
-
-## Setting up `provision.sh`
-
-```
-#!/bin/bash
-sudo apt-get update -y
-sudo apt-get install software-properties-common -y
-
-# ensure line 3 executes in the script
-sudo apt-add-repository ppa:ansible/ansible -y
-
-sudo apt-get upgrade -y 
-sudo apt-get install ansible -y
-
-#to check if setup properly
-ansible --version
-
-#to install tree -to view folder structure in a nice way
-sudo apt-get install tree
-
-cd /etc/ansible
-echo [web] >> hosts
-echo 192.168.33.10 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant >> hosts
-echo [db] >> hosts
-echo 192.168.33.11 ansible_connection=ssh ansible_ssh_user=vagrant ansible_ssh_pass=vagrant >> hosts
-```
-```
-# Yaml file start
+# Start of file
 ---
-# create a script to configure nginx in our web server
 
-# who is the host - name of the server
+# Name of Server
 - hosts: web
 
-# gather data
+# Gather Data
   gather_facts: yes
 
-# We need admin access
+# To execute the corresponding task as a sudo user root unless specified any other user with become_user
   become: true
+tasks:
+  - name: Allow all access to tcp port 80
+    ufw:
+      rule: allow
+      port: '80'
+      proto: tcp
 
-# add the actual instruction
-  tasks:
-  - name: Install/configure Nginx Web server in web-VM
-    apt: pkg=nginx state=present
+  - name: Add nodejs apt key
+    apt_key:
+      url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+      state: present
 
-# we need to ensure a the end of the script the status of nginx is running
+  - name: "Add nodejs 12.x ppa for apt repo"
+    apt_repository:
+      repo: deb https://deb.nodesource.com/node_12.x bionic main
+      update_cache: yes
 ```
