@@ -68,6 +68,6 @@ Once the new software is deployed to the system in which we plan to run it, we e
 
 | Topics        |
 | ------------- |
-| [Ansible](ansible/README.md) |
-| Terraform      |
-| AWS |
+| [Introductin to Ansible](ansible/README.md) |
+| [Creating VM & Installing Ansible](ansible/create-vm-install-ansible.md)      |
+| Terraform |
