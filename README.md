@@ -79,5 +79,8 @@ Once the new software is deployed to the system in which we plan to run it, we e
 - Pinging all the available servers
 - Ad hoc Commands
 - Copying Files from controller to nodes/servers
+- Setting up `provision.sh`
 ***
 
+***
+***
