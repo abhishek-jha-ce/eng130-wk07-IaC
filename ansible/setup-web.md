@@ -239,6 +239,15 @@ Nov 15 16:19:33 web systemd[1]: nginx.service: Failed to parse PID from file /ru
 Nov 15 16:19:33 web systemd[1]: Started A high performance web server and a reverse proxy server.
 ```
 
+### Verbosity Level Flag
+
+- We can add the flag `vvv` at the end while running the command to see all the details that has been abstracted.
+
+```
+vagrant@controller:/etc/ansible$ sudo ansible-playbook configure_nginx.yml -vvv
+```
+- The number of v determines the verbosity level. The more vs, the more details, depending on how the authors decided to implement the debugging details for each function/module/...
+
 ## YAML file (Playbook) for installing `node` and other dependencies
 
 **Step 1**: We create a yaml file called `node.yml` to install node and other related dependencies.
@@ -303,8 +312,8 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
       src: /home/vagrant
       dest: /home/vagrant
 
-  -name: Run npm
-    shell:
+  - name: Run npm
+    shell: |
       cd app
       npm install
       pm2 kill
