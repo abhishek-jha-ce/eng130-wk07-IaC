@@ -1,6 +1,6 @@
-# Setting up the controller to run the db VM
+## Setting up the controller to run the db VM
 
-## YAML file for database
+## Create a YAML file for database
 
 **Step 1** - Create a yaml file called `mongo.yml`.
 
@@ -22,30 +22,37 @@ vagrant@controller:/etc/ansible$ sudo nano mongo.yml
   tasks:
   - name: install mongodb
     apt: pkg=mongodb state=present
+    
   - name: Remove mongodb file (delete file)
     file:
       path: /etc/mongodb.conf
       state: absent
+      
   - name: Create the file with read permission and user have write permission
     file:
       path: /etc/mongodb.conf
       state: touch
       mode: u=rw,g=r,o=r
+      
   - name: Insert multiple lines and Backup
     blockinfile:
       path: /etc/mongodb.conf
+      
       block: |
         storage:
           dbPath: /var/lib/mongodb
           journal:
             enabled: true
+            
         systemLog:
           destination: file
           logAppend: true
           path: /var/log/mongodb/mongod.log
+          
         net:
           port: 27017
           bindIp: 0.0.0.0
+          
   - name: Restart mongodb
     become: true
     shell: systemctl restart mongodb
@@ -146,4 +153,25 @@ net:
   port: 27017
   bindIp: 0.0.0.0
 # END ANSIBLE MANAGED BLOCK
+```
+
+## Set the Environment variables
+
+- Add the environment variables to the `node.yml` file. This script should be written before we run npm.
+
+```
+  - name: Add Env varible
+    shell: |
+      echo export DB_HOST=mongodb://192.168.33.11:27017/posts >> .bashrc
+      sudo source .bashrc
+```
+## Seed the Database
+
+- Seed the database in the `node.yml` file. The script will look like this:
+
+```
+  - name: Seed Database
+    shell: |
+      cd app
+      node seeds/seed.js
 ```
