@@ -155,23 +155,41 @@ net:
 # END ANSIBLE MANAGED BLOCK
 ```
 
-## Set the Environment variables
+## Install the latest npm and Mongoose
 
-- Add the environment variables to the `node.yml` file. This script should be written before we run npm.
+- We will need the latest node package manager.
+- We will also need mongoose, which is the Object Data Modelling library for Mongo DB.
+- *Note* - We will need node v14 or above for the latest version of npm and mongoose to work.
 
 ```
-  - name: Add Env varible
+- name: download latest npm + Mongoose
     shell: |
-      echo export DB_HOST=mongodb://192.168.33.11:27017/posts >> .bashrc
-      sudo source .bashrc
+      npm install -g npm@latest
+      npm install mongoose -y
 ```
-## Seed the Database
 
-- Seed the database in the `node.yml` file. The script will look like this:
+## Seed the database and add Environment variable
+
+- Add the environment variables to the `node.yml` file.
+- Seed the database before starting the app.
 
 ```
-  - name: Seed Database
+ - name: Run npm and Seed Database
     shell: |
       cd app
+      npm install
       node seeds/seed.js
+      pm2 kill
+      pm2 start app.js
+    environment:
+      DB_HOST: mongodb://192.168.33.11:27017/posts?authSource=admin
+    become_user: root
 ```
+
+- Now if we run `http://192.168.33.10:3000/posts` we can see that we are successfully connected to the database:
+
+
+![image](https://user-images.githubusercontent.com/110366380/202935415-bea85fee-10f9-4abb-8318-d2d3c6076498.png)
+
+
+
