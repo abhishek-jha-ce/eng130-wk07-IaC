@@ -55,3 +55,8 @@
           sudo systemctl daemon-reload
           sudo systemctl restart nginx
   ```
+  
+  - The reverse proxy is working successfully, as we can see that we don't need to use `port 3000` to access the app.  
+
+![image](https://user-images.githubusercontent.com/110366380/202937295-ac06657d-214c-49ae-a463-f83683900828.png)
+
