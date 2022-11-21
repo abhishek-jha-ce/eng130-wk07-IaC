@@ -88,5 +88,14 @@ Once the new software is deployed to the system in which we plan to run it, we e
 - YAML - For Playbooks.
 - YAML file (Playbook) for installing `nginx` server.
 - YAML file (Playbook) for installing `node` server and other dependencies.
+
+### [Install MongoDB in the Database Server via Controller](ansible/setup-db.md)
+- YAML file (Playbook) for installing `mongodb` in database server.
+- Set the environment variables for the database.
+- Seed the database.
+
+### [Setting up reverse proxy](ansible/reverse-proxy.md)
+- Change the existing file to set up reverse proxy.
+
 ***
 ***
