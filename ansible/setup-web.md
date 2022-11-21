@@ -275,9 +275,9 @@ vagrant@controller:/etc/ansible$ sudo nano node.yml
       url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
       state: present
 
-  - name: "Add nodejs 12.x ppa for apt repo"
+  - name: "Add nodejs 14.x ppa for apt repo"
     apt_repository:
-      repo: deb https://deb.nodesource.com/node_12.x bionic main
+      repo: deb https://deb.nodesource.com/node_14.x bionic main
       update_cache: yes
 
   - name: Install/configure nodejs
